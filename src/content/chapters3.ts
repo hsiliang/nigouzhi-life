@@ -1,5 +1,5 @@
 import type { DayDef } from '../engine/types';
-import { aff, clean, day, feud, mini, stat, talk, tenant, work } from './helpers';
+import { aff, clean, day, feud, mini, stat, talk, tenant } from './helpers';
 
 export const chapter7to8: DayDef[] = [
   day({
