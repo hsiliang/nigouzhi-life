@@ -38,9 +38,13 @@ def flood_mask(rgb, tol):
     return keep_largest(fg)
 
 
-def outline_mask(rgb):
+def outline_mask(rgb, mirror=False):
     """For white-bodied art on a near-white ground: trust the closed ink outline."""
     ink = np.asarray(rgb).astype(float).mean(axis=2) < 135
+    if mirror:  # the sheet's outline has a gap; borrow it from the symmetric side
+        xs = np.where(ink.any(axis=0))[0]
+        flipped = np.roll(ink[:, ::-1], int(xs.min() + xs.max() + 1 - ink.shape[1]), axis=1)
+        ink = ink | flipped
     solid = ni.binary_fill_holes(ni.binary_dilation(ink, iterations=3))
     return keep_largest(ni.binary_erosion(solid, iterations=3))
 
@@ -92,7 +96,7 @@ def main(cache):
         for view in ('front', 'side', 'back'):
             rgb = src.crop(tuple(s[view]))
             fg = {'rembg': lambda: rembg_mask(rgb),
-                  'outline': lambda: outline_mask(rgb),
+                  'outline': lambda: outline_mask(rgb, view == 'back'),
                   'flood': lambda: flood_mask(rgb, s.get('tol', 30))}[s['method']]()
             sticker(rgb, fg).save(OUT / f'{cid}-{view}.webp', quality=86, method=6)
             print(cid, view, 'coverage %.0f%%' % (fg.mean() * 100))
