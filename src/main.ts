@@ -1,9 +1,10 @@
 import './style.css';
 import { audio } from './audio/audio';
 import { newGame } from './engine/state';
-import type { CharId, GameState } from './engine/types';
+import type { CharId, GameState, MiniId } from './engine/types';
 import { defaultLang, setLang } from './i18n';
 import { games } from './mini/games';
+import { playMini } from './mini/runner';
 import { boss } from './ui/boss';
 import { h, sprite } from './ui/dom';
 import { Game, registerMiniTitles } from './ui/game';
@@ -69,3 +70,5 @@ function title() {
 }
 
 title();
+
+if (import.meta.env.DEV) Object.assign(window, { __nigou: { audio, mini: (id: MiniId) => playMini(app, id), game: () => game } });

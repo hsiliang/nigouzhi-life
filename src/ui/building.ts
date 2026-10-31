@@ -10,6 +10,8 @@ import { hintRooms } from './hud';
 
 const WALK_MS = 620;
 const FACES_RIGHT = new Set(['kaka']);
+/** Paint order top floor first, so the CSS grid reads like a real cutaway. */
+const FLOOR_ORDER: RoomId[] = ['rooftop', 'penthouse', 'lab', 'factory', 'gym', 'artroom', 'cafe', 'courtyard', 'clinic', 'warehouse', 'police'];
 
 export class Building {
   el = h('div', { class: 'building', 'data-testid': 'building' });
@@ -20,7 +22,7 @@ export class Building {
   onRoom: (room: RoomId) => void = () => {};
 
   constructor(private s: GameState) {
-    for (const id of ROOM_IDS) {
+    for (const id of FLOOR_ORDER) {
       const room = content.rooms[id];
       const btn = h('button', { class: `room room-${id}`, 'data-room': id, onClick: () => this.onRoom(id) },
         h('div', { class: 'room-art', html: roomArt[id] }),
@@ -59,7 +61,7 @@ export class Building {
   private spot(room: RoomId) {
     const b = this.el.getBoundingClientRect();
     const r = this.rooms.get(room)!.getBoundingClientRect();
-    return { x: r.left - b.left + r.width * .5, y: r.bottom - b.top - 4 };
+    return { x: r.left - b.left + r.width * .76, y: r.bottom - b.top - 4 };
   }
 
   private place(animated: boolean) {

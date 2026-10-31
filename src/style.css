@@ -75,7 +75,7 @@ h1, h2, h3, p { margin: 0; }
 .room-rooftop, .room-penthouse { grid-column: span 12; }
 .room-lab, .room-factory { grid-column: span 6; }
 .room-gym, .room-artroom, .room-cafe { grid-column: span 4; }
-.room-courtyard { grid-column: span 5; } .room-clinic { grid-column: span 3; } .room-warehouse { grid-column: span 2; } .room-police { grid-column: span 2; }
+.room-courtyard { grid-column: span 4; } .room-clinic { grid-column: span 3; } .room-warehouse { grid-column: span 3; } .room-police { grid-column: span 2; }
 .room-art, .room-art svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .room-name { position: absolute; left: 3px; top: 3px; max-width: calc(100% - 6px); padding: 1px 5px; border-radius: 7px; background: #fff; border: 1.5px solid var(--ink); font-size: 10.5px; font-weight: 700; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .room.hint { outline: 3px solid var(--sun); outline-offset: -3px; animation: glow 1.4s infinite; }
@@ -121,6 +121,7 @@ h1, h2, h3, p { margin: 0; }
 .npc-btns { margin-left: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; }
 .npc-btns .btn { width: auto; padding: 7px 9px; font-size: 13px; }
 .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 8px; }
+.choice-prompt { padding: 12px; border: var(--line); border-radius: 12px; background: var(--paper); font-size: 16px; line-height: 1.5; }
 .choice-layer { display: flex; flex-direction: column; gap: 10px; justify-content: center; padding: 24px; }
 
 .modal-layer { display: grid; place-items: center; padding: 16px; overflow: auto; }
@@ -214,3 +215,15 @@ h1, h2, h3, p { margin: 0; }
 .dd-mole { position: absolute; inset: 0; display: grid; place-items: center; width: 100%; height: 100%; object-fit: contain; font-size: min(11vw, 54px); pointer-events: auto; animation: pop .12s; }
 .bb-frame { position: absolute; left: 50%; top: 42%; width: 140px; height: 140px; translate: -50% -50%; border: 3px dashed var(--ink); border-radius: 10px; background: linear-gradient(var(--ink) 0 0) center/44px 2px no-repeat, linear-gradient(var(--ink) 0 0) center/2px 44px no-repeat; }
 .bb-food { font-size: 54px; }
+
+.room-name { padding: 1px 3px; font-size: 10px; }
+@media (max-height: 520px) and (min-width: 600px) {
+  #app { width: 100vw; }
+  .game { flex-direction: row; }
+  .hud { width: 250px; border-bottom: 0; border-right: var(--line); overflow: auto; }
+  .hud .goals { display: block; }
+  .meters { grid-template-columns: repeat(2, 1fr); }
+  .dialog-layer { padding-left: 150px; }
+  .portrait-box { left: 20px; bottom: 10px; width: 120px; height: 170px; }
+  .sheet { max-height: 92%; }
+}

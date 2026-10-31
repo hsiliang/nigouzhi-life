@@ -62,6 +62,8 @@ class AudioEngine {
     this.sfxGain!.gain.value = this.sfxOn ? 1 : 0;
   }
 
+  get running() { return this.ctx?.state === 'running'; }
+
   private startTrack(t: Track) {
     this.music?.stop();
     if (this.musicOn) this.music?.play(t);

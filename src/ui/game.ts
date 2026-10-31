@@ -84,7 +84,8 @@ export class Game {
     this.commit(r.state);
     await this.say(r.event.lines);
     if (r.event.choices) {
-      const pick = await this.choose(r.event.choices.map((c) => c.label));
+      const prompt = r.event.lines[r.event.lines.length - 1].text;
+      const pick = await this.choose(prompt, r.event.choices.map((c) => c.label));
       const c = applyChoice(this.s, r.event, pick, content);
       this.commit(c.state);
       await this.say(c.lines);
@@ -93,9 +94,10 @@ export class Game {
     await this.signals(r.signals);
   }
 
-  private choose(labels: string[]) {
+  private choose(prompt: string, labels: string[]) {
     return new Promise<number>((resolve) => {
-      const layer = h('div', { class: 'choice-layer' }, ...labels.map((l, i) => h('button', { class: 'btn', onClick: () => { audio.sfx('tap'); layer.remove(); resolve(i); } }, l)));
+      const layer = h('div', { class: 'choice-layer', 'data-testid': 'choices' }, h('p', { class: 'choice-prompt' }, prompt),
+        ...labels.map((l, i) => h('button', { class: 'btn', onClick: () => { audio.sfx('tap'); layer.remove(); resolve(i); } }, l)));
       this.el.append(layer);
     });
   }

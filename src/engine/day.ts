@@ -204,7 +204,7 @@ export function applyMini(state: GameState, id: MiniId, rawScore: number, c: Con
 }
 
 export function rollEvent(state: GameState, c: Content): { state: GameState; event: GameEvent | null; signals: GameSignal[] } {
-  if (!chance(0.3, state.seed, state.day, state.slot, 'ev')) return { state, event: null, signals: [] };
+  if (state.day < 2 || !chance(0.3, state.seed, state.day, state.slot, 'ev')) return { state, event: null, signals: [] };
   const pool = c.events.filter((e) => !state.seenEvents.includes(e.id) && (e.minDay ?? 0) <= state.day);
   if (!pool.length) return { state, event: null, signals: [] };
   const event = pool[hash(state.seed, state.day, state.slot, 'which') % pool.length];

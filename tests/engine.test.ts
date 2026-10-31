@@ -262,8 +262,11 @@ describe('actions and rewards', () => {
     expect(done.state.progress.minis.kaka).toBe(3);
     expect(done.state.slot).toBe(2);
   });
+  it('holds random events back on the first day', () => {
+    for (let seed = 0; seed < 200; seed++) expect(rollEvent({ ...fresh(), seed }, content).event).toBeNull();
+  });
   it('rolls each event at most once', () => {
-    let s = fresh();
+    let s = { ...fresh(), day: 2 };
     const seen: string[] = [];
     for (let i = 0; i < 400; i++) {
       const r = rollEvent({ ...s, seed: i }, content);
