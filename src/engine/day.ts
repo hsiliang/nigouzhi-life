@@ -112,6 +112,11 @@ export function beginDay(state: GameState, c: Content): StepResult {
     const aside = c.heroAsides[s.hero][def.chapter - 1];
     if (aside) lines.push({ who: s.hero, text: aside });
   }
+  if (def.scriptedBan && !s.seenEvents.includes(`ban-${s.day}`)) {
+    s.seenEvents.push(`ban-${s.day}`);
+    s.buildingNo += 1; s.bans += 1; s.complaints = 30; s.complaintTier = 0;
+    signals.push({ type: 'ban', buildingNo: s.buildingNo });
+  }
   if (def.startFx) {
     const r = applyEffects(s, def.startFx, c);
     s = r.state; signals.push(...r.signals);

@@ -42,6 +42,7 @@ export interface DayDef {
   absent?: Partial<Record<CharId, number>>;
   force?: CharId[];
   startFx?: Effects;
+  scriptedBan?: boolean;
 }
 export interface GameEvent {
   id: string; minDay?: number; lines: Line[]; fx?: Effects;

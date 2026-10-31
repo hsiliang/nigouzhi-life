@@ -113,6 +113,26 @@ describe('complaints', () => {
   });
 });
 
+describe('scripted ban', () => {
+  const banned = () => {
+    const custom = fixture();
+    custom.days[1].scriptedBan = true;
+    return custom;
+  };
+  it('moves the building once without losing the day', () => {
+    const c = banned();
+    const r = beginDay({ ...newGame('doudou', 7), day: 2, maxDay: 2, complaints: 60 }, c);
+    expect(r.signals).toContainEqual({ type: 'ban', buildingNo: 2 });
+    expect([r.state.buildingNo, r.state.bans, r.state.complaints, r.state.slot]).toEqual([2, 1, 30, 0]);
+  });
+  it('does not ban again when the day is replayed', () => {
+    const c = banned();
+    const first = beginDay({ ...newGame('doudou', 7), day: 2, maxDay: 2 }, c).state;
+    const again = beginDay({ ...first, started: false }, c).state;
+    expect(again.buildingNo).toBe(2);
+  });
+});
+
 describe('tenants', () => {
   const withTenant = (id: TenantType) => ({ ...fresh(), tenant: { id, clues: 0 }, coins: 100, happiness: 50 });
   const decide = (id: TenantType, verdict: Verdict) => applyAction(withTenant(id), { kind: 'tenantDecide', verdict }, content);
