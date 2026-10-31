@@ -198,6 +198,13 @@ describe('feuds', () => {
     const s = beginDay({ ...newGame('kaka', 3), feud: { id: 'f1', heard: [] } }, content).state;
     expect(s.feud?.heard).toContain('kaka');
   });
+  it('brings a feud party back from the police station so the feud can be heard', () => {
+    const custom = fixture();
+    custom.days[0].feud = 'f1';
+    const s = beginDay({ ...newGame('doudou', 7), absent: { kaka: 5 } }, custom).state;
+    expect(whereIs(s, 'kaka', custom)).not.toBe('police');
+    expect(availableActions(s, custom, whereIs(s, 'kaka', custom)!).some((a) => a.kind === 'feudHear')).toBe(true);
+  });
   it('keeps a rarely seen character findable while they are in a feud', () => {
     const custom = fixture();
     custom.feuds[0].a = 'panghu';

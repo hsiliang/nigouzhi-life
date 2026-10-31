@@ -102,6 +102,7 @@ export function beginDay(state: GameState, c: Content): StepResult {
     }
   }
   const f = feudOf(s, c);
+  if (f) { delete s.absent[f.a]; delete s.absent[f.b]; }
   if (f && s.feud && (f.a === s.hero || f.b === s.hero) && !s.feud.heard.includes(s.hero)) s.feud.heard.push(s.hero);
   if (s.day > 5 && s.hero !== 'taoshu' && !s.forced.includes('taoshu') && !isFeuding(s, 'taoshu', c)
     && !((s.absent.taoshu ?? 0) > s.day) && chance(0.06, s.seed, s.day, 'vanish')) {
