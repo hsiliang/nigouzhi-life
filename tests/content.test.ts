@@ -35,6 +35,12 @@ describe('content volume', () => {
 });
 
 describe('content integrity', () => {
+  it('keeps character background out of the game data', () => {
+    for (const c of Object.values(content.characters)) {
+      expect(Object.keys(c)).not.toEqual(expect.arrayContaining(['bio']));
+      for (const key of ['age', 'home', 'job']) expect(c).not.toHaveProperty(key);
+    }
+  });
   it('only asks for mini games that some room offers', () => {
     const owners = new Set(Object.values(content.rooms).map((r) => r.owner));
     for (const g of goals()) if (g.k === 'mini') expect(owners.has(g.id)).toBe(true);

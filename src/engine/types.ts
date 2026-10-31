@@ -17,7 +17,7 @@ export interface Skill {
   jealousyScale?: number; complaintScale?: number; miniCoins?: number; moodGain?: number; tenantInsight?: boolean;
 }
 export interface Character {
-  id: CharId; name: string; age: string; home: string; job: string; bio: string;
+  id: CharId; name: string;
   schedule: [RoomId, RoomId, RoomId];
   presence?: number;
   talkFx?: Effects;

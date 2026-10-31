@@ -44,7 +44,7 @@ export function heroSelect(onPick: (id: CharId) => void, onBack: () => void) {
     const c = content.characters[id];
     detail.replaceChildren(
       h('img', { src: sprite(id), alt: '' }),
-      h('div', {}, h('h2', {}, c.name), h('small', {}, `${c.age}・${c.home}・${c.job}`), h('p', {}, c.bio),
+      h('div', {}, h('h2', {}, c.name),
         h('p', { class: 'skill' }, h('b', {}, `專長：${c.skill.name}`), ' ', c.skill.desc)));
   };
   const grid = h('div', { class: 'hero-grid' }, ...CHAR_IDS.map((id) => {
@@ -67,7 +67,7 @@ export function albumScreen(onBack: () => void) {
     const c = content.characters[id];
     const done = meta.endings.includes(id);
     return h('div', { class: 'album-row' }, h('img', { src: sprite(id), alt: '' }),
-      h('div', {}, h('b', {}, c.name), h('small', {}, `${c.home}・${c.job}`), h('p', {}, c.bio), h('em', {}, done ? '個人結局已解鎖' : '個人結局未解鎖')));
+      h('div', {}, h('b', {}, c.name), h('em', {}, done ? '個人結局已解鎖' : '個人結局未解鎖')));
   });
   return h('div', { class: 'album' },
     h('h2', {}, '大樓住戶圖鑑'), h('p', {}, `已解鎖結局 ${meta.endings.length} / 10，見過新租客 ${meta.tenants.length} / ${content.tenants.length}，最高封樓 ${meta.bestBans} 次`),

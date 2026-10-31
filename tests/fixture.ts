@@ -13,7 +13,7 @@ function day(n: number): DayDef {
 export function fixture(): Content {
   return {
     characters: each((id) => ({
-      id, name: id, age: '', home: '', job: '', bio: '', pitch: 1,
+      id, name: id, pitch: 1,
       schedule: (id === 'kaka' ? ['gym', 'gym', 'gym'] : id === 'beibei' ? ['gym', 'gym', 'gym'] : ['courtyard', 'courtyard', 'courtyard']) as [RoomId, RoomId, RoomId],
       presence: id === 'panghu' ? 0 : 1,
       skill: { name: '', desc: '', ...(id === 'zhuangzhuang' ? { workCoins: 10 } : {}) },

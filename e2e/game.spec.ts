@@ -16,6 +16,21 @@ test('plays a full time slot and autosaves across a reload', async ({ page }) =>
   expect(errors).toEqual([]);
 });
 
+test('shows names and skills but no character introductions', async ({ page }) => {
+  await page.goto('/?fastmini');
+  await page.getByTestId('working').click();
+  await page.getByRole('button', { name: '圖鑑' }).click();
+  await expect(page.locator('.album-row').first()).toContainText('光哥');
+  await expect(page.locator('.album')).not.toContainText('南京');
+  await expect(page.locator('.album')).not.toContainText('老婆');
+  await page.getByRole('button', { name: '返回' }).click();
+  await page.getByTestId('new-game').click();
+  await page.locator('[data-hero=zhuangzhuang]').click();
+  await expect(page.locator('.hero-detail')).toContainText('群主加班魂');
+  await expect(page.locator('.hero-detail')).not.toContainText('成都');
+  await expect(page.locator('.hero-detail')).not.toContainText('單親');
+});
+
 test('has no horizontal scroll and keeps the boss button reachable', async ({ page }) => {
   await startGame(page);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
