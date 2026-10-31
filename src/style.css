@@ -1,4 +1,5 @@
-
+@font-face { font-family: 'GameFont'; src: url('/fonts/game.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'GameFontHans'; src: url('/fonts/game-hans.woff2') format('woff2'); font-display: swap; }
 :root {
   --ink: #4a3528; --paper: #fff6e8; --cream: #ffe9c9; --orange: #f4895f; --rose: #e8606e; --mint: #7fc7a8; --sky: #8cc4e8; --sun: #ffcf5c;
   --line: 2.5px solid var(--ink); --shadow: 0 4px 0 var(--ink); --radius: 16px;
@@ -12,6 +13,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 #app { position: relative; width: min(100vw, 560px); height: 100dvh; margin: 0 auto; background: var(--paper); overflow: hidden; }
 @media (min-width: 620px) { #app { border-inline: var(--line); box-shadow: 0 0 40px #0003; } }
 h1, h2, h3, p { margin: 0; }
+:root:lang(zh-Hans) { font-family: 'GameFontHans', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif; }
+.btn, .boss-btn, .hud-title b, .skip { font-family: inherit; }
 
 .btn { display: block; width: 100%; padding: 13px 16px; border: var(--line); border-radius: 14px; background: #fff; box-shadow: 0 3px 0 var(--ink); font-size: 16px; font-weight: 700; transition: transform .08s, box-shadow .08s; }
 .btn:active { transform: translateY(3px); box-shadow: none; }
