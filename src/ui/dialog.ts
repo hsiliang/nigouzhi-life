@@ -1,5 +1,6 @@
 import { audio } from '../audio/audio';
 import { content } from '../content';
+import { voiceOf } from '../content/voices';
 import type { CharId, Line } from '../engine/types';
 import { CHAR_IDS } from '../engine/types';
 import { tr } from '../i18n';
@@ -53,14 +54,15 @@ export function playLines(host: HTMLElement, lines: Line[], opts: DialogOptions 
       more.classList.remove('on');
       textEl.textContent = '';
       shown = 0;
-      if (line.voice) audio.playVoice(line.voice);
+      const clip = voiceOf(line);
+      if (clip) audio.playVoice(clip);
       const chars = [...full];
       const pitch = (CHAR_IDS as readonly string[]).includes(who) ? content.characters[who as CharId].pitch : 1;
       timer = window.setInterval(() => {
         if (boss.active) return;
         shown += 1;
         textEl.textContent = chars.slice(0, shown).join('');
-        if (who !== 'narrator' && shown % 3 === 1 && !line.voice) audio.blip(pitch);
+        if (who !== 'narrator' && shown % 3 === 1 && !clip) audio.blip(pitch);
         if (shown >= chars.length) finish();
       }, TYPE_MS);
     };

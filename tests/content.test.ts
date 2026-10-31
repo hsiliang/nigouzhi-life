@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { content } from '../src/content';
+import { voiceData } from '../src/content/voices';
 import { CHAR_IDS, type Goal } from '../src/engine/types';
 
 const chars = (lines: { text: string }[]) => lines.reduce((n, l) => n + [...l.text].length, 0);
@@ -73,5 +74,23 @@ describe('content integrity', () => {
       }
     };
     walk(content);
+  });
+});
+
+describe('voice lines', () => {
+  const spoken = new Set<string>();
+  const walk = (v: unknown): void => {
+    if (Array.isArray(v)) v.forEach(walk);
+    else if (v && typeof v === 'object') {
+      const o = v as Record<string, unknown>;
+      if (typeof o.who === 'string' && typeof o.text === 'string') spoken.add(`${o.who}|${o.text}`);
+      Object.values(o).forEach(walk);
+    }
+  };
+  walk(content);
+  it.each(CHAR_IDS)('%s has 10 to 15 voiced lines that all exist in the script', (id) => {
+    expect(voiceData[id].length).toBeGreaterThanOrEqual(10);
+    expect(voiceData[id].length).toBeLessThanOrEqual(15);
+    expect(voiceData[id].filter((t) => !spoken.has(`${id}|${t}`))).toEqual([]);
   });
 });

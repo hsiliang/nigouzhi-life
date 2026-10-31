@@ -7,7 +7,7 @@ export type StatKey = 'energy' | 'mood' | 'coins' | 'happiness' | 'jealousy' | '
 export type Speaker = CharId | 'narrator' | 'tenant' | 'neighbor' | 'police';
 export type LineFx = 'shake' | 'heart' | 'anger' | 'sweat' | 'jealous' | 'tears' | 'sparkle';
 
-export interface Line { who: Speaker; text: string; fx?: LineFx; voice?: string }
+export interface Line { who: Speaker; text: string; fx?: LineFx }
 export type Effects = Partial<Record<StatKey, number>> & { affinity?: Partial<Record<CharId, number>> };
 
 export interface Skill {
